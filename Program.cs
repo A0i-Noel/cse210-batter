@@ -15,17 +15,33 @@ namespace cse210_batter_csharp
 
             // Bricks
             cast["bricks"] = new List<Actor>();
+            // Bricks _brick1 = new Bricks(10, 10);
+            // Bricks _brick2 = new Bricks(100, 10);
+            // Bricks _brick3 = new Bricks(200, 10);
+            // cast["bricks"].Add(_brick1);
+            // cast["bricks"].Add(_brick2);
+            // cast["bricks"].Add(_brick3);
+
+            for (int c = 0;c < 8;c++){
+                for(int r = 0;r <15;r++){
+                    Bricks _brick = new Bricks(20 + (50 * r), 10 + (30 * c));
+                    cast["bricks"].Add(_brick);
+                }
+            }
 
             // TODO: Add your bricks here
 
             // The Ball (or balls if desired)
             cast["balls"] = new List<Actor>();
+            Ball _ball = new Ball(Constants.MAX_X /2, Constants.MAX_Y /2);
+            cast["balls"].Add(_ball);
 
             // TODO: Add your ball here
 
             // The paddle
             cast["paddle"] = new List<Actor>();
-
+            Paddle _paddle = new Paddle(Constants.MAX_X /2, 550);
+            cast["paddle"].Add(_paddle);
             // TODO: Add your paddle here
 
             // Create the script
@@ -38,7 +54,16 @@ namespace cse210_batter_csharp
 
             script["output"] = new List<Action>();
             script["input"] = new List<Action>();
+            ControlActorsAction _CAA = new ControlActorsAction(inputService);
+            script["input"].Add(_CAA);
+
             script["update"] = new List<Action>();
+            HandleOffScreenAction _HOSA = new HandleOffScreenAction(physicsService);
+            MoveActorsAction _MAA = new MoveActorsAction();
+            HandleCollisionAction _HCA = new HandleCollisionAction(physicsService, audioService);
+            script["update"].Add(_HOSA);
+            script["update"].Add(_MAA);
+            script["update"].Add(_HCA);
 
             DrawActorsAction drawActorsAction = new DrawActorsAction(outputService);
             script["output"].Add(drawActorsAction);
